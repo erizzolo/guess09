@@ -47,7 +47,7 @@ void processUserCommand(action c, game &g, configuration &config)
     }
     else
     {
-        cout << "command not available" << endl;
+        statusMsg("command not available");
     }
 }
 

@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
         processUserCommand(cmd, g, config);
     } while (cmd.code != EXIT);
     saveConfiguration(config);
+    rlutil::cls();
     /// successful termination
     return 0;
 }
@@ -64,12 +65,12 @@ int main(int argc, char *argv[])
 // application functions
 configuration loadConfiguration()
 {
-    cout << "Loading configuration..." << endl;
+    statusMsg("Loading configuration...");
     return 42;
 }
 void saveConfiguration(const configuration &c)
 {
-    cout << "Saving configuration " << c << endl;
+    statusMsg("Saving configuration... ");
 }
 
 #include "game.cpp"

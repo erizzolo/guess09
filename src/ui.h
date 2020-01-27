@@ -71,4 +71,90 @@ void gameEnded(const game &);
 void secretShown(const game &);
 // or a mix of the two alternatives, of course
 
+// using rlutil
+#include "rlutil.h"
+
+// colour (text = foreground and background)
+struct colour
+{
+    int text, back; // text and background components
+};
+// rectangular dimensions on the screen
+struct dimension
+{
+    int vertical, horizontal; // vertical (rows) & horizontal (cols) dimension
+};
+#define MAX_TITLE_LENGTH 30
+// a generic "window" on the screen
+struct window
+{
+    dimension corner;                 // corner top (row) & left (col) coordinates
+    dimension size;                   // total size (border included)
+    dimension border;                 // border size
+    colour content, frame;            // colours of content and border area
+    char title[MAX_TITLE_LENGTH + 1]; // title
+};
+// the main window
+window mainWindow{{2, 2},
+                  {rlutil::trows() - 4, rlutil::tcols() - 2},
+                  {1, 1},
+                  {rlutil::WHITE, rlutil::BLACK},
+                  {rlutil::BLACK, rlutil::GREY},
+                  "Welcome to the game!!!"};
+// the "menu" bar
+window menuBar{{3, 3},
+               {NUM_ACTIONS + 1, rlutil::tcols() - 4},
+               {1, 0},
+               {rlutil::GREEN, rlutil::BLACK},
+               {rlutil::BLACK, rlutil::GREEN},
+               "Available commands"};
+// the game info window
+window gameInfo{{9, 3},
+                {3, rlutil::tcols() - 4},
+                {0, 0},
+                {rlutil::YELLOW, rlutil::BLACK},
+                {rlutil::YELLOW, rlutil::BLACK},
+                ""};
+// the user input
+window userInput{{14, 3},
+                 {1, 20},
+                 {0, 0},
+                 {rlutil::YELLOW, rlutil::BLACK},
+                 {rlutil::YELLOW, rlutil::BLACK},
+                 ""};
+// the status bar
+window statusBar{{rlutil::trows() - 2, 2},
+                 {3, rlutil::tcols() - 2},
+                 {1, 1},
+                 {rlutil::WHITE, rlutil::BLACK},
+                 {rlutil::BLACK, rlutil::GREY},
+                 "Status messages"};
+// functions to paint a window, clear content, ...
+void paint(const window &);
+void clear(const window &);
+void printText(const window &, const char msg[], int row = 0, bool cls = true);
+// utility function to show a message from application
+void statusMsg(const char msg[]);
+// various colours and positions
+#define STATUS_ROW (rlutil::trows() - 4) // row of status message
+#define STATUS_COL (1)                   // column of status message
+#define STATUS_TEXT (rlutil::WHITE)      // colour of status message
+#define STATUS_BACK (rlutil::BLACK)      // background colour of status message
+
+#define COMMAND_ROW (2)                       // start row of commands
+#define COMMAND_COL (1)                       // start column of commands
+#define COMMAND_ENABLED_TEXT (rlutil::WHITE)  // colour of enabled commands
+#define COMMAND_ENABLED_BACK (rlutil::BLACK)  // background colour of enabled commands
+#define COMMAND_DISABLED_TEXT (rlutil::RED)   // colour of disabled commands
+#define COMMAND_DISABLED_BACK (rlutil::BLACK) // background colour of disabled commands
+
+#define INPUT_ROW 10               // row of user input
+#define INPUT_COL 1                // column of user input
+#define INPUT_TEXT (rlutil::WHITE) // colour of user input
+#define INPUT_BACK (rlutil::BLACK) // background colour user input
+
+#define GUESSES_ROW 8                // row of user guesses
+#define GUESSES_TEXT (rlutil::WHITE) // colour of user guesses
+#define GUESSES_BACK (rlutil::BLACK) // background colour user guesses
+
 #endif
