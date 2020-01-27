@@ -140,8 +140,7 @@ action getUserCommand(const game &g)
 {
     showAvailableCommands(g);
     printText(userInput, inputPrompt);
-    input what;
-    cin >> what;
+    input what = getch();
     // translation
     return translateInputToAction(what);
 }
