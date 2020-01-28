@@ -74,6 +74,8 @@ void secretShown(const game &);
 // using rlutil
 #include "rlutil.h"
 
+#include <cstring>
+
 // colour (text = foreground and background)
 struct colour
 {

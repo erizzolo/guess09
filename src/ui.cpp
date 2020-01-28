@@ -47,6 +47,8 @@ void printText(const window &w, const char msg[], int row /* = 0 */, bool cls /*
         clear(w);
     }
     locate(w.corner.horizontal + w.border.horizontal, w.corner.vertical + w.border.vertical + row);
+    setColor(w.content.text);
+    setBackgroundColor(w.content.back);
     cout << msg;
     cout.flush();
 }
@@ -58,6 +60,7 @@ void showWelcomeScreen()
     paint(statusBar);
     printText(mainWindow, "This is the main window", 15);
 }
+void showAvailableCommands(const game &);
 void hideWelcomeScreen()
 {
     msleep(500);
@@ -66,10 +69,11 @@ void hideWelcomeScreen()
     paint(menuBar);
     paint(gameInfo);
     paint(userInput);
+    printText(userInput, inputPrompt);
+    paint(timeElapsed);
 }
 void updateView(const game &g)
 {
-    paint(timeElapsed);
     double time = getElapsed(g);
     int minutes = time / 60;
     int seconds = time - minutes * 60;
@@ -77,7 +81,7 @@ void updateView(const game &g)
     printText(timeElapsed, "");
     cout << (minutes / 10) << (minutes % 10) << ":";
     cout << (seconds / 10) << (seconds % 10) << ",";
-    cout << (millis / 100) << ((millis / 10) % 10) << (millis % 10);
+    cout << (millis / 100) << ((millis / 10) % 10) << (millis % 10) << " ";
     cout.flush();
     if (UPDATE_VIEW)
     {
@@ -145,11 +149,10 @@ action translateInputToAction(input what)
     }
     return {NONE, PARAM_NONE};
 }
-
 action getUserCommand(const game &g)
 {
-    showAvailableCommands(g);
-    printText(userInput, inputPrompt);
+    // printText(userInput, inputPrompt); flickering!!!
+    locate(userInput.corner.horizontal + userInput.border.horizontal + strlen(inputPrompt), userInput.corner.vertical + userInput.border.vertical);
     input what = nb_getch(); // non blocking
     // translation
     return translateInputToAction(what);
@@ -177,20 +180,25 @@ void guessChecked(const game &g)
         printText(gameInfo, "Your ", 2, false);
         cout << g.numGuesses << "° guess (" << g.guesses[g.numGuesses - 1] << ") is wrong.";
     }
+    showAvailableCommands(g);
 }
 void gameStarted(const game &g)
 {
     showGuesses(g);
     cout << "New game!!! You haven't guessed yet.";
+    statusMsg("New game ...");
+    showAvailableCommands(g);
 }
 void gameEnded(const game &g)
 {
     statusMsg("Game over!!!");
+    showAvailableCommands(g);
 }
 void secretShown(const game &g)
 {
     printText(gameInfo, "The secret to be guessed was ", 2, false);
     cout << g.secret << "." << endl;
+    showAvailableCommands(g);
 }
 void statusMsg(const char msg[])
 {
