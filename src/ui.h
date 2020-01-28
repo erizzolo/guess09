@@ -129,6 +129,13 @@ window statusBar{{rlutil::trows() - 2, 2},
                  {rlutil::WHITE, rlutil::BLACK},
                  {rlutil::BLACK, rlutil::GREY},
                  "Status messages"};
+// the time elapsed window (MM:SS,mmm)
+window timeElapsed{{16, 3},
+                   {2, 12},
+                   {1, 1},
+                   {rlutil::WHITE, rlutil::BLACK},
+                   {rlutil::BLACK, rlutil::GREY},
+                   "Time Elapsed"};
 // functions to paint a window, clear content, ...
 void paint(const window &);
 void clear(const window &);

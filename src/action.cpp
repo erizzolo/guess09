@@ -15,6 +15,8 @@ bool isEnabled(action_code code, const game &g)
         return !g.rightGuess && g.hidden && g.numGuesses < MAX_GUESSES;
     case SHOW:
         return g.hidden && !g.rightGuess;
+    case NONE:
+        return true;
     default:
         return false;
     }
@@ -41,7 +43,9 @@ void processUserCommand(action c, game &g, configuration &config)
         case SHOW:
             getSecret(g); // ignore result
             break;
-        default:
+        case NONE:
+            break;
+            default:
             cout << "Should never be here !!!! " << endl;
         }
     }

@@ -69,6 +69,16 @@ void hideWelcomeScreen()
 }
 void updateView(const game &g)
 {
+    paint(timeElapsed);
+    double time = getElapsed(g);
+    int minutes = time / 60;
+    int seconds = time - minutes * 60;
+    int millis = (time - minutes * 60 - seconds) * 1000;
+    printText(timeElapsed, "");
+    cout << (minutes / 10) << (minutes % 10) << ":";
+    cout << (seconds / 10) << (seconds % 10) << ",";
+    cout << (millis / 100) << ((millis / 10) % 10) << (millis % 10);
+    cout.flush();
     if (UPDATE_VIEW)
     {
         cout << endl; // just to separate
@@ -140,7 +150,7 @@ action getUserCommand(const game &g)
 {
     showAvailableCommands(g);
     printText(userInput, inputPrompt);
-    input what = getch();
+    input what = nb_getch(); // non blocking
     // translation
     return translateInputToAction(what);
 }

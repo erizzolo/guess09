@@ -18,6 +18,8 @@ struct game
     guess guesses[MAX_GUESSES]; // i tentativi effettuati
     bool rightGuess{false};     // l'utente ha indovinato
     bool hidden{true};          // segreto nascosto/mostrato all'utente
+    clock_t startTime{clock()}; // istante inizio
+    clock_t endTime{0};         // istante fine ( 0 = running )
 };
 // actions available on the game (known to the application and the user interface)
 // game may be NEW (numGuesses == 0 && hidden), RUNNING, OVER (rightGuess || !hidden || numGuesses == MAX_GUESSES)
@@ -28,5 +30,7 @@ game newGame(const configuration &);
 bool checkGuess(game &, guess);
 // get the secret, updating game
 guess getSecret(game &);
+// get time elapsed, in seconds
+double getElapsed(const game &);
 
 #endif
