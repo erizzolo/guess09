@@ -51,12 +51,14 @@ int main(int argc, char *argv[])
     game g = newGame(config);
     do
     {
+        updateElapsed(g);
         updateView(g);
         cmd = getUserCommand(g);
         processUserCommand(cmd, g, config);
     } while (cmd.code != EXIT);
     saveConfiguration(config);
     rlutil::cls();
+    rlutil::showcursor();
     /// successful termination
     return 0;
 }

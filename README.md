@@ -12,5 +12,6 @@ Basically, starting with an example provided, we will add some functionality to 
 |2020-01-27|changed input to getch() instead of cin >>.
 |2020-01-28|changed input to nb_getch() and added a timer.
 |2020-01-28|eliminated flickering.
+|2020-01-28|added progress bar and logic to handle time..
 
 

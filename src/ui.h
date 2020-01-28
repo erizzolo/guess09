@@ -138,32 +138,18 @@ window timeElapsed{{16, 3},
                    {rlutil::WHITE, rlutil::BLACK},
                    {rlutil::BLACK, rlutil::GREY},
                    "Time Elapsed"};
+// the progress bar
+window progressBar{{18, 3},
+                   {3, rlutil::tcols() - 4},
+                   {1, 1},
+                   {rlutil::WHITE, rlutil::GREEN},
+                   {rlutil::BLACK, rlutil::GREY},
+                   "Time remaining"};
 // functions to paint a window, clear content, ...
 void paint(const window &);
 void clear(const window &);
 void printText(const window &, const char msg[], int row = 0, bool cls = true);
 // utility function to show a message from application
 void statusMsg(const char msg[]);
-// various colours and positions
-#define STATUS_ROW (rlutil::trows() - 4) // row of status message
-#define STATUS_COL (1)                   // column of status message
-#define STATUS_TEXT (rlutil::WHITE)      // colour of status message
-#define STATUS_BACK (rlutil::BLACK)      // background colour of status message
-
-#define COMMAND_ROW (2)                       // start row of commands
-#define COMMAND_COL (1)                       // start column of commands
-#define COMMAND_ENABLED_TEXT (rlutil::WHITE)  // colour of enabled commands
-#define COMMAND_ENABLED_BACK (rlutil::BLACK)  // background colour of enabled commands
-#define COMMAND_DISABLED_TEXT (rlutil::RED)   // colour of disabled commands
-#define COMMAND_DISABLED_BACK (rlutil::BLACK) // background colour of disabled commands
-
-#define INPUT_ROW 10               // row of user input
-#define INPUT_COL 1                // column of user input
-#define INPUT_TEXT (rlutil::WHITE) // colour of user input
-#define INPUT_BACK (rlutil::BLACK) // background colour user input
-
-#define GUESSES_ROW 8                // row of user guesses
-#define GUESSES_TEXT (rlutil::WHITE) // colour of user guesses
-#define GUESSES_BACK (rlutil::BLACK) // background colour user guesses
 
 #endif

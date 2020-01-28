@@ -71,6 +71,7 @@ void hideWelcomeScreen()
     paint(userInput);
     printText(userInput, inputPrompt);
     paint(timeElapsed);
+    hidecursor();
 }
 void updateView(const game &g)
 {
@@ -82,6 +83,15 @@ void updateView(const game &g)
     cout << (minutes / 10) << (minutes % 10) << ":";
     cout << (seconds / 10) << (seconds % 10) << ",";
     cout << (millis / 100) << ((millis / 10) % 10) << (millis % 10) << " ";
+    cout.flush();
+    double fractionElapsed = time / TIME_ALLOWED;
+    int length = ((progressBar.size.horizontal - 2 * progressBar.border.horizontal) * fractionElapsed) + 0.5;
+    printText(progressBar, "", 0, false);
+    setBackgroundColor(RED);
+    for (int i = 0; i < length; ++i)
+    {
+        cout << " ";
+    }
     cout.flush();
     if (UPDATE_VIEW)
     {
@@ -188,6 +198,7 @@ void gameStarted(const game &g)
     cout << "New game!!! You haven't guessed yet.";
     statusMsg("New game ...");
     showAvailableCommands(g);
+    paint(progressBar);
 }
 void gameEnded(const game &g)
 {

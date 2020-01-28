@@ -10,9 +10,9 @@ bool isEnabled(action_code code, const game &g)
     case EXIT:
         return true;
     case NEW:
-        return g.numGuesses != 0 || !g.hidden;
+        return g.numGuesses != 0 || !g.hidden || g.endTime != 0;
     case TRY:
-        return !g.rightGuess && g.hidden && g.numGuesses < MAX_GUESSES;
+        return !g.rightGuess && g.hidden && g.numGuesses < MAX_GUESSES && g.endTime == 0;
     case SHOW:
         return g.hidden && !g.rightGuess;
     case NONE:

@@ -9,7 +9,8 @@
 // data to be guessed
 using guess = char;
 // max number of guesses
-#define MAX_GUESSES 5 // fair enough!
+#define MAX_GUESSES 5   // fair enough!
+#define TIME_ALLOWED 10 // ten seconds = 2 seconds / guess
 // game status (with default initialization)
 struct game
 {
@@ -32,5 +33,7 @@ bool checkGuess(game &, guess);
 guess getSecret(game &);
 // get time elapsed, in seconds
 double getElapsed(const game &);
+// update time elapsed
+void updateElapsed(game &);
 
 #endif
