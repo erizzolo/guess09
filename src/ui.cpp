@@ -73,7 +73,7 @@ void hideWelcomeScreen()
     paint(timeElapsed);
     hidecursor();
 }
-void updateView(const game &g)
+void updateTime(const game &g)
 {
     double time = getElapsed(g);
     int minutes = time / 60;
@@ -93,41 +93,18 @@ void updateView(const game &g)
         cout << " ";
     }
     cout.flush();
-    if (UPDATE_VIEW)
+}
+void updateView(const game &g)
+{
+    static int execIntervalMillis = 9;
+    static clock_t nextExec = clock();
+    if (clock() > nextExec)
     {
-        cout << endl; // just to separate
-        if (g.rightGuess)
+        if (g.endTime == 0)
         {
-            cout << "You guessed right at " << g.numGuesses << "° guess." << endl;
+            updateTime(g);
         }
-        else if (g.hidden)
-        {
-            if (g.numGuesses == 0)
-            {
-                cout << "You haven't guessed yet: you have " << MAX_GUESSES - g.numGuesses << " guesses available." << endl;
-            }
-            else
-            {
-                if (g.numGuesses >= MAX_GUESSES)
-                {
-                    cout << "You haven't guessed right in the " << MAX_GUESSES << " guesses available." << endl;
-                }
-                else
-                {
-                    cout << "You haven't guessed right yet: you still have " << MAX_GUESSES - g.numGuesses << " guesses available." << endl;
-                }
-                cout << "Here are your previous guesses: ";
-                for (int i = 0; i < g.numGuesses; ++i)
-                {
-                    cout << g.guesses[i] << " ";
-                }
-                cout << endl;
-            }
-        }
-        else
-        {
-            cout << "You haven't guessed right; as you probably already know, the secret to be guessed was " << g.secret << "." << endl;
-        }
+        nextExec = nextExec + execIntervalMillis * CLOCKS_PER_SEC / 1000;
     }
 }
 
@@ -203,6 +180,7 @@ void gameStarted(const game &g)
 void gameEnded(const game &g)
 {
     statusMsg("Game over!!!");
+    updateTime(g);
     showAvailableCommands(g);
 }
 void secretShown(const game &g)

@@ -118,7 +118,7 @@ window gameInfo{{9, 3},
                 {rlutil::YELLOW, rlutil::BLACK},
                 ""};
 // the user input
-window userInput{{14, 3},
+window userInput{{13, 3},
                  {1, 20},
                  {0, 0},
                  {rlutil::YELLOW, rlutil::BLACK},
@@ -132,15 +132,15 @@ window statusBar{{rlutil::trows() - 2, 2},
                  {rlutil::BLACK, rlutil::GREY},
                  "Status messages"};
 // the time elapsed window (MM:SS,mmm)
-window timeElapsed{{16, 3},
-                   {2, 12},
+window timeElapsed{{19, 3},
+                   {3, 12},
                    {1, 1},
                    {rlutil::WHITE, rlutil::BLACK},
                    {rlutil::BLACK, rlutil::GREY},
                    "Time Elapsed"};
 // the progress bar
-window progressBar{{18, 3},
-                   {3, rlutil::tcols() - 4},
+window progressBar{{19, 15},
+                   {3, rlutil::tcols() - 16},
                    {1, 1},
                    {rlutil::WHITE, rlutil::GREEN},
                    {rlutil::BLACK, rlutil::GREY},

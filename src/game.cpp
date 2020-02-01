@@ -53,11 +53,13 @@ double getElapsed(const game &g)
 
 void updateElapsed(game &g)
 {
-    clock_t endTime = g.endTime == 0 ? clock() : g.endTime;
-    if (endTime - g.startTime >= TIME_ALLOWED * CLOCKS_PER_SEC)
+    if (g.endTime == 0)
     {
-        g.endTime = g.startTime + TIME_ALLOWED;
-        gameEnded(g);
+        if (clock() - g.startTime >= TIME_ALLOWED * CLOCKS_PER_SEC)
+        {
+            g.endTime = g.startTime + TIME_ALLOWED * CLOCKS_PER_SEC;
+            gameEnded(g);
+        }
     }
 }
 
