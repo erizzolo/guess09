@@ -1,8 +1,24 @@
 #ifndef ACTION_CPP
 #define ACTION_CPP
 
-// action functions
+/**
+ * @brief the action representation
+ * 
+ */
+struct action
+{
+    action_code code;
+    action_param param;
+};
 
+/**
+ * @brief Returns whether an action is enabled or not in the given game
+ * 
+ * @param code  the action code
+ * @param g     the game
+ * @return true if the action is enabled
+ * @return false  otherwise
+ */
 bool isEnabled(action_code code, const game &g)
 {
     switch (code)
@@ -10,11 +26,12 @@ bool isEnabled(action_code code, const game &g)
     case EXIT:
         return true;
     case NEW:
-        return g.numGuesses != 0 || !g.hidden || g.endTime != 0;
+        return getStatus(g) != NEW_GAME;
+    case MOVE:
     case TRY:
-        return !g.rightGuess && g.hidden && g.numGuesses < MAX_GUESSES && g.endTime == 0;
+        return (getStatus(g) & OVER) == 0;
     case SHOW:
-        return g.hidden && !g.rightGuess;
+        return (getStatus(g) & (REVEALED | RIGHT_GUESSED)) == 0;
     case NONE:
         return true;
     default:
@@ -22,15 +39,18 @@ bool isEnabled(action_code code, const game &g)
     }
 }
 
-void processUserCommand(action c, game &g, configuration &config)
+/**
+ * @brief process the given action on the given game
+ * 
+ * @param a     the action
+ * @param g     the game
+ * @param config    the application configuration 
+ */
+void processUserAction(action a, game &g, configuration &config)
 {
-    if (DEBUG)
+    if (isEnabled(a.code, g))
     {
-        cout << "processing action " << c.code << " with param " << c.param << ": enabled " << isEnabled(c.code, g) << endl;
-    }
-    if (isEnabled(c.code, g))
-    {
-        switch (c.code)
+        switch (a.code)
         {
         case EXIT:
             break;
@@ -38,15 +58,20 @@ void processUserCommand(action c, game &g, configuration &config)
             g = newGame(config);
             break;
         case TRY:
-            checkGuess(g, c.param); // ignore result
+            checkGuess(g, a.param); // ignore result
+            break;
+        case MOVE:
+            changeSelection(g, a.param);
             break;
         case SHOW:
             getSecret(g); // ignore result
             break;
         case NONE:
             break;
-            default:
-            cout << "Should never be here !!!! " << endl;
+        default:
+        {
+            // cout << "Should never be here !!!! " << endl;
+        }
         }
     }
     else

@@ -15,29 +15,45 @@
  * ne prevedo una sola (Move) con parametro direzione.
  * In questo caso viene usata per l'azione TRY.
  */
-// the action codes
+
+/**
+ * @brief possible action codes
+ * 
+ */
 enum action_code
 {
-    NONE,       // fake code to indicate no action at all
-    EXIT,       // exit the application
-    NEW,        // new game
-    TRY,        // make a guess (with guess as parameter)
-    SHOW,       // show the secret
-    NUM_ACTIONS // fake code: total number of actions (including NONE)
+    NONE,       ///< fake code to indicate no action at all
+    EXIT,       ///< exit the application
+    NEW,        ///< new game
+    TRY,        ///< make a guess (with guess as parameter)
+    MOVE,       ///< move selection (with amount as parameter)
+    SHOW,       ///< show the secret
+    NUM_ACTIONS ///< fake code: total number of actions (including NONE)
 };
+
 // action parameter [optional] data type
 using action_param = int;
 // definition of no parameter specified
 #define PARAM_NONE 0
-// action to be processed, maybe returned by user interface
-struct action
-{
-    action_code code;
-    action_param param;
-};
-// status of actions: enabled/disabled
+
+/**
+ * @brief the action representation (to be defined in action.cpp)
+ * 
+ */
+struct action;
+
+/**
+ * @brief Returns whether an action is enabled or not
+ * 
+ * @return true if the action is enabled
+ * @return false  otherwise
+ */
 bool isEnabled(action_code, const game &);
-// elabora comando utente
-void processUserCommand(action, game &, configuration &);
+
+/**
+ * @brief process the given action on the given game
+ * 
+ */
+void processUserAction(action, game &, configuration &);
 
 #endif
